@@ -35,6 +35,10 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Row(
                     children: [
                       Container(
@@ -43,20 +47,28 @@ class TransactionList extends StatelessWidget {
                           horizontal: 15,
                         ),
                         padding: EdgeInsets.all(10),
-                        child: Text(
-                          '\$${transactions[index].amount.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Theme.of(context).primaryColor,
+                        child: CircleAvatar(
+                          radius: 30,
+                          child: FittedBox(
+                            child: Container(
+                              padding: EdgeInsets.all(7),
+                              child: Text(
+                                '\$${transactions[index].amount.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).primaryColor,
-                            width: 2,
-                          ),
-                        ),
+                        // decoration: BoxDecoration(
+                        //   border: Border.all(
+                        //     color: Theme.of(context).primaryColor,
+                        //     width: 2,
+                        //   ),
+                        // ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

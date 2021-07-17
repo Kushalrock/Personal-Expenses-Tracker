@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -10,8 +11,8 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
+  DateTime _selectedDate;
 
   void submitData() {
     final enteredTitle = titleController.text;
@@ -23,6 +24,22 @@ class _NewTransactionState extends State<NewTransaction> {
 
     widget.addTx(titleController.text, double.parse(amountController.text));
     Navigator.of(context).pop();
+  }
+
+  void presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2018),
+      lastDate: DateTime.now(),
+    ).then((value) {
+      if (value == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = value;
+      });
+    });
   }
 
   @override
@@ -44,10 +61,37 @@ class _NewTransactionState extends State<NewTransaction> {
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
             ),
-            FlatButton(
+            Container(
+              height: 70,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(_selectedDate == null
+                      ? 'No Date Chosen!'
+                      : DateFormat.yMd().format(_selectedDate)),
+                  FlatButton(
+                    textColor: Theme.of(context).primaryColor,
+                    onPressed: presentDatePicker,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            RaisedButton(
               onPressed: submitData,
-              child: Text('Add Transaction'),
-              textColor: Theme.of(context).primaryColorDark,
+              child: Text(
+                'Add Transaction',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              color: Theme.of(context).primaryColorDark,
             )
           ],
         ),
