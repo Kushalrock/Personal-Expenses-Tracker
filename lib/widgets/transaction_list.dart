@@ -91,16 +91,30 @@ class TransactionList extends StatelessWidget {
                     ),
                     Flexible(
                       fit: FlexFit.tight,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        alignment: Alignment.centerRight,
-                        child: IconButton(
-                          onPressed: () {
-                            deleteTransaction(transactions[index].id);
-                          },
-                          icon: Icon(Icons.delete),
-                        ),
-                      ),
+                      child: MediaQuery.of(context).size.width > 450
+                          ? Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              alignment: Alignment.centerRight,
+                              child: FlatButton.icon(
+                                onPressed: () {
+                                  deleteTransaction(transactions[index].id);
+                                },
+                                icon: Icon(Icons.delete),
+                                label: Text('Delete Transaction'),
+                                textColor: Theme.of(context).errorColor,
+                              ),
+                            )
+                          : Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                onPressed: () {
+                                  deleteTransaction(transactions[index].id);
+                                },
+                                color: Theme.of(context).errorColor,
+                                icon: Icon(Icons.delete),
+                              ),
+                            ),
                     )
                   ],
                 ),

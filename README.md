@@ -1,4 +1,4 @@
-# personal_expenses_tracker
+# Personal Expenses Tracker
 
 A personal expenses tracker made using flutter toolkit and dart language.
 
