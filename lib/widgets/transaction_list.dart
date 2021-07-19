@@ -10,10 +10,9 @@ class TransactionList extends StatelessWidget {
   TransactionList(this.transactions, this.deleteTransaction);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 350,
-      child: transactions.isEmpty
-          ? Column(
+    return transactions.isEmpty
+        ? LayoutBuilder(builder: (ctx, constraints) {
+            return Column(
               children: [
                 Text(
                   'No transactions here. Add one',
@@ -23,91 +22,91 @@ class TransactionList extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: constraints.maxHeight * 0.1,
                 ),
                 Container(
-                    height: 270,
+                    height: constraints.maxHeight * 0.6,
                     child: Image.asset(
                       'assets/images/waiting.png',
                       fit: BoxFit.cover,
                     )),
               ],
-            )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 15,
-                        ),
-                        padding: EdgeInsets.all(10),
-                        child: CircleAvatar(
-                          radius: 30,
-                          child: FittedBox(
-                            child: Container(
-                              padding: EdgeInsets.all(7),
-                              child: Text(
-                                '\$${transactions[index].amount.toStringAsFixed(2)}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                  color: Colors.black,
-                                ),
+            );
+          })
+        : ListView.builder(
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 15,
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: CircleAvatar(
+                        radius: 30,
+                        child: FittedBox(
+                          child: Container(
+                            padding: EdgeInsets.all(7),
+                            child: Text(
+                              '\$${transactions[index].amount.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                                color: Colors.black,
                               ),
                             ),
                           ),
                         ),
-                        // decoration: BoxDecoration(
-                        //   border: Border.all(
-                        //     color: Theme.of(context).primaryColor,
-                        //     width: 2,
-                        //   ),
-                        // ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            transactions[index].name,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                              DateFormat.yMMMMd()
-                                  .format(transactions[index].date),
-                              style: TextStyle(
-                                color: Colors.grey,
-                              )),
-                        ],
-                      ),
-                      Flexible(
-                        fit: FlexFit.tight,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                            onPressed: () {
-                              deleteTransaction(transactions[index].id);
-                            },
-                            icon: Icon(Icons.delete),
+                      // decoration: BoxDecoration(
+                      //   border: Border.all(
+                      //     color: Theme.of(context).primaryColor,
+                      //     width: 2,
+                      //   ),
+                      // ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          transactions[index].name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                );
-              },
-              itemCount: transactions.length,
-            ),
-    );
+                        Text(
+                            DateFormat.yMMMMd()
+                                .format(transactions[index].date),
+                            style: TextStyle(
+                              color: Colors.grey,
+                            )),
+                      ],
+                    ),
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          onPressed: () {
+                            deleteTransaction(transactions[index].id);
+                          },
+                          icon: Icon(Icons.delete),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+            itemCount: transactions.length,
+          );
   }
 }
